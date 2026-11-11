@@ -46,7 +46,6 @@
       }
 
       body {
-        min-width: 320px;
         margin: 0;
         background:
           radial-gradient(ellipse at 50% -20%, rgba(255, 202, 58, 0.08), transparent 42%),
@@ -167,6 +166,33 @@
         display: flex;
         align-items: center;
         gap: 12px;
+      }
+
+      .language-select {
+        min-height: 38px;
+        padding: 0 29px 0 11px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: var(--surface);
+        color: var(--text);
+        font-family: var(--label);
+        font-size: 11px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .language-select:hover {
+        border-color: rgba(139, 206, 255, 0.4);
+      }
+
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        clip-path: inset(50%);
       }
 
       .games-tag {
@@ -385,6 +411,7 @@
 
       .project-card {
         min-width: 0;
+        overflow: hidden;
         padding: 18px;
         border: 1px solid var(--line);
         border-radius: 18px;
@@ -572,7 +599,7 @@
         font-size: 9px;
       }
 
-      .tool-cell span {
+      .tool-cell > span:first-child {
         display: block;
         margin-bottom: 4px;
         font-size: 17px;
@@ -833,6 +860,35 @@
         font-size: 14px;
       }
 
+      .landing-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .landing-card {
+        min-width: 0;
+        padding: 14px;
+      }
+
+      .landing-screenshot {
+        display: block;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16 / 9;
+        object-fit: cover;
+        object-position: top center;
+        background: #f3f5f7;
+      }
+
+      .landing-card .card-info h3 {
+        font-size: 14px;
+      }
+
+      .landing-card .card-category {
+        margin-bottom: 0;
+      }
+
       .contact-section {
         position: relative;
         overflow: hidden;
@@ -918,6 +974,15 @@
           grid-template-columns: repeat(3, minmax(0, 1fr));
         }
 
+        .main-nav {
+          gap: 0;
+        }
+
+        .main-nav a {
+          padding-inline: 9px;
+          font-size: 10px;
+        }
+
         .project-card {
           padding: 15px;
         }
@@ -998,7 +1063,16 @@
           gap: 12px;
         }
 
+        .landing-grid {
+          grid-template-columns: 1fr;
+          gap: 12px;
+        }
+
         .web-card {
+          padding: 16px;
+        }
+
+        .landing-card {
           padding: 16px;
         }
 
@@ -1020,6 +1094,10 @@
           width: calc(100% - 28px);
         }
 
+        .header-actions > .contact-button {
+          display: none;
+        }
+
         .brand-name {
           font-size: 12px;
         }
@@ -1038,7 +1116,13 @@
         }
 
         .header-actions {
-          gap: 7px;
+          gap: 5px;
+        }
+
+        .language-select {
+          min-height: 36px;
+          padding: 0 20px 0 8px;
+          font-size: 10px;
         }
 
         .header-actions .contact-button {
@@ -1050,6 +1134,11 @@
         .menu-toggle {
           width: 36px;
           height: 36px;
+        }
+
+        .phone-ribbon,
+        .browser-ribbon {
+          right: -14px;
         }
 
         .hero {
@@ -1114,6 +1203,12 @@
         }
       }
 
+      @media (max-width: 360px) {
+        .header-inner {
+          gap: 6px;
+        }
+      }
+
       @media (prefers-reduced-motion: reduce) {
         *,
         *::before,
@@ -1127,27 +1222,40 @@
   <body>
     <header class="site-header">
       <div class="container header-inner">
-        <a class="brand" href="#" aria-label="LB Tech, início">
+        <a class="brand" href="#" aria-label="LB Tech, início" data-i18n-aria-label="brandHome">
           <span class="brand-mark" aria-hidden="true">LB</span>
           <span class="brand-name">
             LB TECH
           </span>
         </a>
 
-        <nav class="main-nav" id="main-navigation" aria-label="Navegação principal">
-          <a href="#mobile">Mobile Apps</a>
-          <a href="#web">Sistemas Web</a>
-          <a href="#contato">Contato</a>
+        <nav class="main-nav" id="main-navigation" aria-label="Navegação principal" data-i18n-aria-label="mainNavigation">
+          <a href="#mobile" data-i18n="navMobile">Mobile Apps</a>
+          <a href="#web" data-i18n="navWeb">Sistemas Web</a>
+          <a href="#landing-pages" data-i18n="navLanding">Landing Pages</a>
+          <a href="#contato" data-i18n="contact">Contato</a>
         </nav>
 
         <div class="header-actions">
-          <a class="contact-button" href="#contato">Contato <span aria-hidden="true">↗</span></a>
+          <label class="sr-only" for="language-select" data-i18n="languageLabel">Idioma</label>
+          <select
+            class="language-select"
+            id="language-select"
+            aria-label="Idioma"
+            data-i18n-aria-label="languageLabel"
+          >
+            <option value="pt">Português</option>
+            <option value="en">English</option>
+            <option value="es">Español</option>
+          </select>
+          <a class="contact-button" href="#contato"><span data-i18n="contact">Contato</span> <span aria-hidden="true">↗</span></a>
           <button
             class="menu-toggle"
             type="button"
             aria-label="Abrir menu"
             aria-controls="main-navigation"
             aria-expanded="false"
+            data-i18n-aria-label="menuOpen"
           >
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
@@ -1161,25 +1269,26 @@
       <section class="container hero" aria-labelledby="hero-title">
         
         <h1 id="hero-title">
-          Engenharia de Software,<br />
-          <span class="text-gold">Mobile</span> &amp; <span class="text-blue">Web</span>
+          <span data-i18n="heroTitle">Engenharia de Software,</span><br />
+          <span class="text-gold" data-i18n="mobile">Mobile</span> &amp; <span class="text-blue" data-i18n="web">Web</span>
         </h1>
         <p class="hero-copy">
-          Portfólio de aplicações mobile, jogos casuais e sistemas web.
+          <span data-i18n="heroCopy">Portfólio de aplicações mobile, jogos casuais e sistemas web.</span>
         </p>
         <div class="hero-actions">
-          <a class="button button-secondary" href="#mobile">Ver Mobile <span aria-hidden="true">↓</span></a>
-          <a class="button button-blue" href="#web">Ver Sistemas Web <span aria-hidden="true">↓</span></a>
+          <a class="button button-secondary" href="#mobile"><span data-i18n="seeMobile">Ver Mobile</span> <span aria-hidden="true">↓</span></a>
+          <a class="button button-blue" href="#web"><span data-i18n="seeWeb">Ver Sistemas Web</span> <span aria-hidden="true">↓</span></a>
+          <a class="button button-secondary" href="#landing-pages"><span data-i18n="seeLanding">Ver Landing Pages</span> <span aria-hidden="true">↓</span></a>
         </div>
       </section>
 
       <section class="container portfolio-section" id="mobile" aria-labelledby="mobile-title">
         <div class="section-heading">
           <div>
-            <p class="section-kicker">Smartphones · Android</p>
-            <h2 id="mobile-title">Aplicativos Mobile</h2>
+            <p class="section-kicker" data-i18n="mobileKicker">Smartphones · Android</p>
+            <h2 id="mobile-title" data-i18n="mobileSection">Aplicativos Mobile</h2>
           </div>
-          <span class="section-count">7 projetos no portfólio</span>
+          <span class="section-count" data-i18n="mobileCount">7 projetos no portfólio</span>
         </div>
 
         <div class="mobile-grid">
@@ -1191,15 +1300,16 @@
                   class="phone-screenshot"
                   src="Jogo_da_velha.png"
                   alt="Captura de tela do Tukii: Jogo da Velha"
+                  data-i18n-alt="altTicTacToe"
                 />
               </div>
               <span class="phone-home" aria-hidden="true"></span>
             </div>
             <div class="card-info">
-              <h3>Tukii: Jogo da Velha</h3>
-              <span class="badge"><span class="status-dot"></span>Ativo</span>
+              <h3 data-i18n="ticTacToe">Tukii: Jogo da Velha</h3>
+              <span class="badge"><span class="status-dot"></span><span data-i18n="active">Ativo</span></span>
             </div>
-            <p class="card-category">Mobile App / Jogo</p>
+            <p class="card-category" data-i18n="mobileGame">Mobile App / Jogo</p>
           </article>
 
           <article class="project-card">
@@ -1210,15 +1320,16 @@
                   class="phone-screenshot"
                   src="Memoria.jpeg"
                   alt="Captura de tela do Tukii Memória"
+                  data-i18n-alt="altMemory"
                 />
               </div>
               <span class="phone-home" aria-hidden="true"></span>
             </div>
             <div class="card-info">
-              <h3>Tukii: Jogo da Memória</h3>
-              <span class="badge"><span class="status-dot"></span>Ativo</span>
+              <h3 data-i18n="memory">Tukii: Jogo da Memória</h3>
+              <span class="badge"><span class="status-dot"></span><span data-i18n="active">Ativo</span></span>
             </div>
-            <p class="card-category">Mobile App / Jogo</p>
+            <p class="card-category" data-i18n="mobileGame">Mobile App / Jogo</p>
           </article>
 
           <article class="project-card">
@@ -1229,85 +1340,86 @@
                   class="phone-screenshot"
                   src="Colorir.jpeg"
                   alt="Captura de tela do Tukii Color"
+                  data-i18n-alt="altColor"
                 />
               </div>
               <span class="phone-home" aria-hidden="true"></span>
             </div>
             <div class="card-info">
-              <h3>Tukii: Colorir &amp; Pintar</h3>
-              <span class="badge"><span class="status-dot"></span>Ativo</span>
+              <h3 data-i18n="coloring">Tukii: Colorir &amp; Pintar</h3>
+              <span class="badge"><span class="status-dot"></span><span data-i18n="active">Ativo</span></span>
             </div>
-            <p class="card-category">Mobile App / Criativo</p>
+            <p class="card-category" data-i18n="mobileCreative">Mobile App / Criativo</p>
           </article>
 
           <article class="project-card">
             <div class="phone">
-              <span class="phone-ribbon">Em breve</span>
+              <span class="phone-ribbon" data-i18n="comingSoon">Em breve</span>
               <span class="phone-camera" aria-hidden="true"></span>
               <div class="phone-screen">
                 <div class="mock-screen">
                   <span class="mock-icon" aria-hidden="true">♫</span>
                   <span class="mock-value">440.0 Hz</span>
-                  <span class="mock-caption">E (Mi) · Afinação</span>
+                  <span class="mock-caption" data-i18n="tuning">E (Mi) · Afinação</span>
                   <span class="mock-meter" aria-hidden="true"></span>
                 </div>
               </div>
               <span class="phone-home" aria-hidden="true"></span>
             </div>
             <div class="card-info">
-              <h3>Afinador de Violão</h3>
-              <span class="badge soon">Em breve</span>
+              <h3 data-i18n="tuner">Afinador de Violão</h3>
+              <span class="badge soon" data-i18n="comingSoon">Em breve</span>
             </div>
-            <p class="card-category">Mobile Utilitário</p>
+            <p class="card-category" data-i18n="mobileUtility">Mobile Utilitário</p>
           </article>
 
           <article class="project-card">
             <div class="phone">
-              <span class="phone-ribbon">Em breve</span>
+              <span class="phone-ribbon" data-i18n="comingSoon">Em breve</span>
               <span class="phone-camera" aria-hidden="true"></span>
               <div class="phone-screen">
                 <div class="mock-screen">
                   <div class="tool-grid">
-                    <div class="tool-cell"><span>⌖</span>Bússola</div>
-                    <div class="tool-cell"><span>⌗</span>Nível</div>
-                    <div class="tool-cell"><span>◖</span>Decibel</div>
-                    <div class="tool-cell"><span>☼</span>Lanterna</div>
+                    <div class="tool-cell"><span>⌖</span><span data-i18n="compass">Bússola</span></div>
+                    <div class="tool-cell"><span>⌗</span><span data-i18n="level">Nível</span></div>
+                    <div class="tool-cell"><span>◖</span><span data-i18n="decibel">Decibel</span></div>
+                    <div class="tool-cell"><span>☼</span><span data-i18n="flashlight">Lanterna</span></div>
                   </div>
                 </div>
               </div>
               <span class="phone-home" aria-hidden="true"></span>
             </div>
             <div class="card-info">
-              <h3>Caixa de Ferramentas</h3>
-              <span class="badge soon">Em breve</span>
+              <h3 data-i18n="toolbox">Caixa de Ferramentas</h3>
+              <span class="badge soon" data-i18n="comingSoon">Em breve</span>
             </div>
-            <p class="card-category">Mobile Utilitário</p>
+            <p class="card-category" data-i18n="mobileUtility">Mobile Utilitário</p>
           </article>
 
           <article class="project-card">
             <div class="phone">
-              <span class="phone-ribbon">Em breve</span>
+              <span class="phone-ribbon" data-i18n="comingSoon">Em breve</span>
               <span class="phone-camera" aria-hidden="true"></span>
               <div class="phone-screen">
                 <div class="mock-screen">
                   <span class="mock-icon" aria-hidden="true">✚</span>
                   <div class="medicine-card">
-                    <strong>Amoxicilina</strong>
-                    <span>Hoje às 14:00</span>
+                    <strong data-i18n="amoxicillin">Amoxicilina</strong>
+                    <span data-i18n="todayAt2">Hoje às 14:00</span>
                   </div>
                   <div class="medicine-card">
-                    <strong>Vitamina C</strong>
-                    <span>Hoje às 20:00</span>
+                    <strong data-i18n="vitaminC">Vitamina C</strong>
+                    <span data-i18n="todayAt8">Hoje às 20:00</span>
                   </div>
                 </div>
               </div>
               <span class="phone-home" aria-hidden="true"></span>
             </div>
             <div class="card-info">
-              <h3>Lembrete de Remédios</h3>
-              <span class="badge soon">Em breve</span>
+              <h3 data-i18n="medicationReminder">Lembrete de Remédios</h3>
+              <span class="badge soon" data-i18n="comingSoon">Em breve</span>
             </div>
-            <p class="card-category">Mobile Saúde</p>
+            <p class="card-category" data-i18n="mobileHealth">Mobile Saúde</p>
           </article>
 
           <article class="project-card">
@@ -1319,15 +1431,16 @@
                   class="phone-screenshot"
                   src="orcamento.jpeg"
                   alt="Captura de tela do app TUKI Orça"
+                  data-i18n-alt="altQuotes"
                 />
               </div>
               <span class="phone-home" aria-hidden="true"></span>
             </div>
             <div class="card-info">
-              <h3>Gerador de Orçamentos</h3>
-              <span class="badge soon">Em breve</span>
+              <h3 data-i18n="quoteGenerator">Gerador de Orçamentos</h3>
+              <span class="badge soon" data-i18n="comingSoon">Em breve</span>
             </div>
-            <p class="card-category">Mobile Negócios</p>
+            <p class="card-category" data-i18n="mobileBusiness">Mobile Negócios</p>
           </article>
         </div>
       </section>
@@ -1335,10 +1448,10 @@
       <section class="container portfolio-section" id="web" aria-labelledby="web-title">
         <div class="section-heading">
           <div>
-            <p class="section-kicker blue">SaaS · Navegador Desktop · Responsivo</p>
-            <h2 id="web-title">Sistemas Web</h2>
+            <p class="section-kicker blue" data-i18n="webKicker">SaaS · Navegador Desktop · Responsivo</p>
+            <h2 id="web-title" data-i18n="webSection">Sistemas Web</h2>
           </div>
-          <span class="section-count">3 plataformas</span>
+          <span class="section-count" data-i18n="webCount">3 plataformas</span>
         </div>
 
         <div class="web-grid">
@@ -1352,17 +1465,18 @@
                 class="web-screenshot"
                 src="estacionamento.png"
                 alt="Captura de tela do sistema de controle de estacionamento"
+                data-i18n-alt="altParking"
               />
             </div>
             <div class="card-info">
-              <h3>Controle de Estacionamento SaaS</h3>
-              <span class="badge"><span class="status-dot"></span>Ativo</span>
+              <h3 data-i18n="parking">Controle de Estacionamento SaaS</h3>
+              <span class="badge"><span class="status-dot"></span><span data-i18n="active">Ativo</span></span>
             </div>
-            <p class="card-category">Web App / Gestão</p>
+            <p class="card-category" data-i18n="webManagement">Web App / Gestão</p>
           </article>
 
           <article class="project-card web-card">
-            <span class="browser-ribbon">Em breve</span>
+            <span class="browser-ribbon" data-i18n="comingSoon">Em breve</span>
             <div class="browser">
               <div class="browser-bar">
                 <span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span>
@@ -1372,17 +1486,18 @@
                 class="web-screenshot"
                 src="agenda.png"
                 alt="Captura de tela do sistema de agenda online"
+                data-i18n-alt="altAgenda"
               />
             </div>
             <div class="card-info">
-              <h3>Agenda Manicure &amp; Cabeleireiro</h3>
-              <span class="badge soon">Em breve</span>
+              <h3 data-i18n="salonBooking">Agenda Manicure &amp; Cabeleireiro</h3>
+              <span class="badge soon" data-i18n="comingSoon">Em breve</span>
             </div>
-            <p class="card-category">Web App SaaS</p>
+            <p class="card-category" data-i18n="webSaas">Web App SaaS</p>
           </article>
 
           <article class="project-card web-card">
-            <span class="browser-ribbon">Em breve</span>
+            <span class="browser-ribbon" data-i18n="comingSoon">Em breve</span>
             <div class="browser">
               <div class="browser-bar">
                 <span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span>
@@ -1390,24 +1505,96 @@
               </div>
               <div class="browser-placeholder">
                 <span class="placeholder-icon" aria-hidden="true">▤</span>
-                <strong>Gestão de SKUs &amp; Armazém</strong>
-                <span>Espaço reservado para o print da plataforma</span>
+                <strong data-i18n="inventoryPlaceholder">Gestão de SKUs &amp; Armazém</strong>
+                <span data-i18n="imagePlaceholder">Espaço reservado para o print da plataforma</span>
               </div>
             </div>
             <div class="card-info">
-              <h3>Controle de Estoque ERP</h3>
-              <span class="badge soon">Em breve</span>
+              <h3 data-i18n="inventory">Controle de Estoque ERP</h3>
+              <span class="badge soon" data-i18n="comingSoon">Em breve</span>
             </div>
-            <p class="card-category">Web App SaaS</p>
+            <p class="card-category" data-i18n="webSaas">Web App SaaS</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="container portfolio-section" id="landing-pages" aria-labelledby="landing-title">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker" data-i18n="landingKicker">Experiências web · Desktop · Responsivo</p>
+            <h2 id="landing-title" data-i18n="landingSection">Landing Pages</h2>
+          </div>
+          <span class="section-count" data-i18n="landingCount">3 projetos</span>
+        </div>
+
+        <div class="landing-grid">
+          <article class="project-card landing-card">
+            <div class="browser">
+              <div class="browser-bar">
+                <span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span class="browser-url">nexa-ai-startup.site</span>
+                <span aria-hidden="true"></span>
+              </div>
+              <img
+                class="landing-screenshot"
+                src="nexa_ai_startup.png"
+                alt="Landing page da Nexa AI, plataforma de automação inteligente"
+                data-i18n-alt="altNexa"
+              />
+            </div>
+            <div class="card-info">
+            <h3 data-i18n="nexaTitle">Nexa AI · Startup</h3>
+            </div>
+            <p class="card-category" data-i18n="nexaCategory">Landing Page / Inteligência Artificial</p>
+          </article>
+
+          <article class="project-card landing-card">
+            <div class="browser">
+            <div class="browser-bar">
+              <span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span class="browser-url">aurelia-resort.site</span>
+              <span aria-hidden="true"></span>
+            </div>
+            <img
+              class="landing-screenshot"
+              src="aurelia_resort.png"
+              alt="Landing page do Aurelia Resort com vista para a praia"
+              data-i18n-alt="altAurelia"
+            />
+            </div>
+            <div class="card-info">
+            <h3 data-i18n="aureliaTitle">Aurelia · Resort</h3>
+            </div>
+            <p class="card-category" data-i18n="aureliaCategory">Landing Page / Hotelaria</p>
+          </article>
+
+          <article class="project-card landing-card">
+            <div class="browser">
+            <div class="browser-bar">
+              <span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span class="browser-url">bella-pasta.site</span>
+              <span aria-hidden="true"></span>
+            </div>
+            <img
+              class="landing-screenshot"
+              src="bella_pasta_italian_restaurant.png"
+              alt="Landing page do restaurante italiano Bella Pasta"
+              data-i18n-alt="altBella"
+            />
+            </div>
+            <div class="card-info">
+            <h3 data-i18n="bellaTitle">Bella Pasta · Restaurante</h3>
+            </div>
+            <p class="card-category" data-i18n="bellaCategory">Landing Page / Gastronomia</p>
           </article>
         </div>
       </section>
 
       <section class="contact-section" id="contato" aria-labelledby="contact-title">
-        <h2 id="contact-title">Contato</h2>
-        <p>Desenvolvemos seu aplicativo móvel ou sistema web sob medida.</p>
+        <h2 id="contact-title" data-i18n="contactTitle">Contato</h2>
+        <p data-i18n="contactCopy">Desenvolvemos seu aplicativo móvel, sistema web ou landing page sob medida.</p>
         <a class="contact-button" href="mailto:lbtech.br@gmail.com">
-          <span aria-hidden="true">↗</span> lbtech.br@gmail.com
+          <span aria-hidden="true">↗</span> <span data-i18n="emailContact">lbtech.br@gmail.com</span>
         </a>
       </section>
     </main>
@@ -1417,18 +1604,247 @@
         <div class="footer-brand">
           <span class="footer-separator">·</span>
         </div>
-        <span>© <span id="current-year"></span> LB Tech. Todos os direitos reservados.</span>
+        <span>© <span id="current-year"></span> <span data-i18n="copyright">LB Tech. Todos os direitos reservados.</span></span>
       </div>
     </footer>
 
     <script>
+      const translations = {
+        en: {
+          brandHome: "LB Tech, home",
+          mainNavigation: "Main navigation",
+          menuOpen: "Open menu",
+          menuClose: "Close menu",
+          languageLabel: "Language",
+          heroTitle: "Software Engineering,",
+          mobile: "Mobile",
+          web: "Web",
+          navMobile: "Mobile Apps",
+          navWeb: "Web Systems",
+          navLanding: "Landing Pages",
+          contact: "Contact",
+          heroCopy: "Portfolio of mobile apps, casual games, and web systems.",
+          seeMobile: "Explore Mobile",
+          seeWeb: "Explore Web Systems",
+          seeLanding: "Explore Landing Pages",
+          mobileKicker: "Smartphones · Android",
+          mobileSection: "Mobile Apps",
+          mobileCount: "7 portfolio projects",
+          altTicTacToe: "Tukii Tic-Tac-Toe game screenshot",
+          ticTacToe: "Tukii: Tic-Tac-Toe",
+          active: "Live",
+          mobileGame: "Mobile App / Game",
+          altMemory: "Tukii Memory game screenshot",
+          memory: "Tukii: Memory Game",
+          altColor: "Tukii Color app screenshot",
+          coloring: "Tukii: Color & Paint",
+          mobileCreative: "Mobile App / Creative",
+          comingSoon: "Coming Soon",
+          tuning: "E (Mi) · Tuning",
+          tuner: "Guitar Tuner",
+          mobileUtility: "Mobile Utility",
+          compass: "Compass",
+          level: "Level",
+          decibel: "Decibel",
+          flashlight: "Flashlight",
+          toolbox: "Toolbox",
+          amoxicillin: "Amoxicillin",
+          todayAt2: "Today at 2:00 PM",
+          vitaminC: "Vitamin C",
+          todayAt8: "Today at 8:00 PM",
+          medicationReminder: "Medication Reminder",
+          mobileHealth: "Mobile Health",
+          altQuotes: "TUKI Orça app screenshot",
+          quoteGenerator: "Quote Generator",
+          mobileBusiness: "Mobile Business",
+          webKicker: "SaaS · Desktop Browser · Responsive",
+          webSection: "Web Systems",
+          webCount: "3 platforms",
+          altParking: "Parking management system screenshot",
+          parking: "Parking Management SaaS",
+          webManagement: "Web App / Management",
+          altAgenda: "Online appointment scheduling system screenshot",
+          salonBooking: "Salon Appointment Booking",
+          webSaas: "Web App SaaS",
+          inventoryPlaceholder: "SKU & Warehouse Management",
+          imagePlaceholder: "Space reserved for a platform screenshot",
+          inventory: "Inventory Management ERP",
+          landingKicker: "Web Experiences · Desktop · Responsive",
+          landingSection: "Landing Pages",
+          landingCount: "3 projects",
+          altNexa: "Nexa AI landing page, an intelligent automation platform",
+          nexaTitle: "Nexa AI · Startup",
+          nexaCategory: "Landing Page / Artificial Intelligence",
+          altAurelia: "Aurelia Resort landing page with a beach view",
+          aureliaTitle: "Aurelia · Resort",
+          aureliaCategory: "Landing Page / Hospitality",
+          altBella: "Bella Pasta Italian restaurant landing page",
+          bellaTitle: "Bella Pasta · Restaurant",
+          bellaCategory: "Landing Page / Food & Dining",
+          contactTitle: "Start a Project",
+          contactCopy: "We build custom mobile apps and web systems for your business.",
+          emailContact: "lbtech.br@gmail.com",
+          copyright: "LB Tech. All rights reserved.",
+          title: "LB Tech — Mobile & Web",
+          description: "Explore mobile apps, games, and web systems created by LB Tech."
+        },
+        es: {
+          brandHome: "LB Tech, inicio",
+          mainNavigation: "Navegación principal",
+          menuOpen: "Abrir menú",
+          menuClose: "Cerrar menú",
+          languageLabel: "Idioma",
+          heroTitle: "Ingeniería de software,",
+          mobile: "Móvil",
+          web: "Web",
+          navMobile: "Apps móviles",
+          navWeb: "Sistemas web",
+          navLanding: "Páginas de aterrizaje",
+          contact: "Contacto",
+          heroCopy: "Portafolio de aplicaciones móviles, juegos casuales y sistemas web.",
+          seeMobile: "Ver aplicaciones",
+          seeWeb: "Ver sistemas web",
+          seeLanding: "Ver páginas de aterrizaje",
+          mobileKicker: "Smartphones · Android",
+          mobileSection: "Aplicaciones móviles",
+          mobileCount: "7 proyectos en el portafolio",
+          altTicTacToe: "Captura del juego Tres en raya de Tukii",
+          ticTacToe: "Tukii: Tres en raya",
+          active: "Activo",
+          mobileGame: "App móvil / Juego",
+          altMemory: "Captura del juego de memoria de Tukii",
+          memory: "Tukii: Juego de memoria",
+          altColor: "Captura de la app Tukii Color",
+          coloring: "Tukii: Colorear y pintar",
+          mobileCreative: "App móvil / Creatividad",
+          comingSoon: "Próximamente",
+          tuning: "E (Mi) · Afinación",
+          tuner: "Afinador de guitarra",
+          mobileUtility: "Utilidad móvil",
+          compass: "Brújula",
+          level: "Nivel",
+          decibel: "Decibelios",
+          flashlight: "Linterna",
+          toolbox: "Caja de herramientas",
+          amoxicillin: "Amoxicilina",
+          todayAt2: "Hoy a las 14:00",
+          vitaminC: "Vitamina C",
+          todayAt8: "Hoy a las 20:00",
+          medicationReminder: "Recordatorio de medicamentos",
+          mobileHealth: "Salud móvil",
+          altQuotes: "Captura de la app TUKI Orça",
+          quoteGenerator: "Generador de presupuestos",
+          mobileBusiness: "Negocios móvil",
+          webKicker: "SaaS · Navegador de escritorio · Adaptable",
+          webSection: "Sistemas web",
+          webCount: "3 plataformas",
+          altParking: "Captura del sistema de gestión de estacionamiento",
+          parking: "SaaS de gestión de estacionamiento",
+          webManagement: "App web / Gestión",
+          altAgenda: "Captura del sistema de reservas en línea",
+          salonBooking: "Agenda para peluquería y salón",
+          webSaas: "App web SaaS",
+          inventoryPlaceholder: "Gestión de SKU y almacén",
+          imagePlaceholder: "Espacio reservado para la captura de la plataforma",
+          inventory: "ERP de gestión de inventario",
+          landingKicker: "Experiencias web · Escritorio · Adaptable",
+          landingSection: "Páginas de aterrizaje",
+          landingCount: "3 proyectos",
+          altNexa: "Página de Nexa AI, una plataforma de automatización inteligente",
+          nexaTitle: "Nexa AI · Startup",
+          nexaCategory: "Página de aterrizaje / Inteligencia artificial",
+          altAurelia: "Página de Aurelia Resort con vista a la playa",
+          aureliaTitle: "Aurelia · Resort",
+          aureliaCategory: "Página de aterrizaje / Hotelería",
+          altBella: "Página del restaurante italiano Bella Pasta",
+          bellaTitle: "Bella Pasta · Restaurante",
+          bellaCategory: "Página de aterrizaje / Gastronomía",
+          contactTitle: "Inicia un proyecto",
+          contactCopy: "Desarrollamos aplicaciones móviles y sistemas web a medida.",
+          emailContact: "lbtech.br@gmail.com",
+          copyright: "LB Tech. Todos los derechos reservados.",
+          title: "LB Tech — Móvil y Web",
+          description: "Conoce las aplicaciones móviles, juegos y sistemas web desarrollados por LB Tech."
+        }
+      };
+
       const menuToggle = document.querySelector(".menu-toggle");
       const mainNavigation = document.querySelector("#main-navigation");
+      const languageSelect = document.querySelector("#language-select");
+      const supportedLanguages = ["pt", "en", "es"];
+      const localizedText = document.querySelectorAll("[data-i18n]");
+      const localizedAttributes = document.querySelectorAll("[data-i18n-aria-label]");
+      const localizedAlts = document.querySelectorAll("[data-i18n-alt]");
+      const defaultText = new Map(
+        Array.from(localizedText, (element) => [element, element.textContent])
+      );
+      const defaultAriaLabels = new Map(
+        Array.from(localizedAttributes, (element) => [
+          element,
+          element.getAttribute("aria-label")
+        ])
+      );
+      const defaultAlts = new Map(
+        Array.from(localizedAlts, (element) => [element, element.getAttribute("alt")])
+      );
+
+      function setLanguage(language) {
+        const dictionary = translations[language];
+        const fallbackLanguage = language === "pt" ? null : dictionary;
+
+        localizedText.forEach((element) => {
+          const key = element.dataset.i18n;
+          element.textContent = fallbackLanguage?.[key] ?? defaultText.get(element);
+        });
+
+        localizedAttributes.forEach((element) => {
+          const key = element.dataset.i18nAriaLabel;
+          element.setAttribute(
+            "aria-label",
+            fallbackLanguage?.[key] ?? defaultAriaLabels.get(element)
+          );
+        });
+
+        localizedAlts.forEach((element) => {
+          const key = element.dataset.i18nAlt;
+          element.setAttribute("alt", fallbackLanguage?.[key] ?? defaultAlts.get(element));
+        });
+
+        document.documentElement.lang = language === "pt" ? "pt-BR" : language;
+        document.title =
+          fallbackLanguage?.title ?? "LB Tech — Mobile & Web";
+        document.querySelector('meta[name="description"]').content =
+          fallbackLanguage?.description ??
+          "Conheça os aplicativos mobile e sistemas web desenvolvidos pela LB Tech.";
+        menuToggle.setAttribute(
+          "aria-label",
+          menuToggle.getAttribute("aria-expanded") === "true"
+            ? fallbackLanguage?.menuClose ?? "Fechar menu"
+            : fallbackLanguage?.menuOpen ?? "Abrir menu"
+        );
+      }
+
+      const savedLanguage = localStorage.getItem("lbtech-language");
+      const initialLanguage = supportedLanguages.includes(savedLanguage) ? savedLanguage : "pt";
+      languageSelect.value = initialLanguage;
+      setLanguage(initialLanguage);
+
+      languageSelect.addEventListener("change", () => {
+        const language = languageSelect.value;
+        localStorage.setItem("lbtech-language", language);
+        setLanguage(language);
+      });
 
       menuToggle.addEventListener("click", () => {
         const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
         menuToggle.setAttribute("aria-expanded", String(!isOpen));
-        menuToggle.setAttribute("aria-label", isOpen ? "Abrir menu" : "Fechar menu");
+        const dictionary = translations[languageSelect.value];
+        menuToggle.setAttribute(
+          "aria-label",
+          isOpen
+            ? dictionary?.menuOpen ?? "Abrir menu"
+            : dictionary?.menuClose ?? "Fechar menu"
+        );
         mainNavigation.classList.toggle("is-open", !isOpen);
       });
 
@@ -1436,7 +1852,8 @@
         if (event.target instanceof HTMLAnchorElement) {
           mainNavigation.classList.remove("is-open");
           menuToggle.setAttribute("aria-expanded", "false");
-          menuToggle.setAttribute("aria-label", "Abrir menu");
+          const dictionary = translations[languageSelect.value];
+          menuToggle.setAttribute("aria-label", dictionary?.menuOpen ?? "Abrir menu");
         }
       });
 
